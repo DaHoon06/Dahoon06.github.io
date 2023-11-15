@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "웹 접근성이란?"
+title: "웹 접근성이란?"
 summary: "Web Accessibility"
-author: xplor4r
-date: '2023-07-26 00:00:00 +0530'
+author: dahoon
+date: "2023-07-26 00:00:00 +0530"
 category: web
 thumbnail: /assets/img/posts/accessibility.jpg
 keywords: HTML, accessibility
@@ -41,7 +41,7 @@ usemathjax: true
 `img` `area` 등의 태그에 사용되는 `alt` 속성을 사용하여 대체 텍스트를 사용할 수 있다.
 
 ```html
-<img src="dahoon06/profile.jpg" alt="dahoon06-profile-img">
+<img src="dahoon06/profile.jpg" alt="dahoon06-profile-img" />
 ```
 
 #### 2. 멀티미디어 대체수단 제공
@@ -177,17 +177,14 @@ usemathjax: true
 이럴땐 W3C에서 규정한 WAI-ARAI 또는 ARIA는 이러한 접근성 문제가 있는 영역을 해결하는데 매우 적합한 기술이다.
 
 ```html
-<li tabindex="0" class="checkbox" checked>
-    Dahoon06 web accessibility
-</li>
+<li tabindex="0" class="checkbox" checked>Dahoon06 web accessibility</li>
 ```
 
 이러한 html 요소를 아래와 같이 표현한다면
 
-
 ```html
 <li tabindex="0" class="checkbox" role="checkbox" checked aria-checked="true">
-    Dahoon06 web accessibility
+  Dahoon06 web accessibility
 </li>
 ```
 

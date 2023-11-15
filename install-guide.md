@@ -2,14 +2,16 @@ https://jekyll-themes.com/sujaykundu777/devlopr-jekyll
 
 ###Install Ruby
 
-#### For Linux
+#### For Mac
 
 ```bash
-sudo apt install ruby-full
+# ruby install
+rbenv install 3.1.2
 ruby --version
 
 > ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-linux-gnu]
 
+# jekyll 와 bundler 가 없다면 설치
 gem install jekyll bundler
 
 # npm install

@@ -1,68 +1,65 @@
 title: DaHoon06
-subtitle: DaHoon06 Storage
+subtitle: 개발 히스토리
 description: >- # this means to ignore newlines until "baseurl:"
-  개발 히스토리
-
 url: "https://dahoon06.github.io" # the base hostname & protocol for your site, e.g. https://example.github.io
 baseurl: "" # the subpath of your site, e.g. /blog
+introduceContent: "Jeon DaHoon"
 
 # Navigation
 urls:
-    - text: Home
-      url: /
-    - text: About
-      url: /about
-    - text: Blog
-      url: /blog
-    - text: Gallery
-      url: /gallery
-    - text: Contact
-      url : /contact
-
+  - text: Home
+    url: /
+  - text: About
+    url: /about
+  - text: Blog
+    url: /blog
+  # - text: Gallery
+  #   url: /gallery
+  # - text: Contact
+  #   url: /contact
 
 # Edit Author details (For multi authors check _data/authors.yml)
-
-author_logo: profile.png
+avatar: dahoon.png
+author_logo: profile.gif
 author: Jeon DaHoon
-author_bio: 전다훈
+author_bio: 안녕하세요 프론트엔드를 지향하는 웹 개발자 전다훈 입니다. 
 author_email: "dahoon226@gmail.com"
 author_location: Republic Of Korea
 author_website_url: "https://dahoon06.github.io"
 typewrite-text: 끄적..끄적.. 끄적이는 개발 히스토리
-hero_cover_img: sample_cover.jpg # replace this for changing homepage cover (eg. try cover.jpeg). Image should be in /assets/img
+hero_cover_img: cover.jpg # replace this for changing homepage cover (eg. try cover.jpeg). Image should be in /assets/img
 
 # Experiences
 author_work_experiences:
-            - company_name: PMI
-              company_logo: google.png
-              company_url: https://pmirnc.com/
-              designation: Web Software Engineer
-              description: 피앰아이
-              visibility: true
-
+  - company_name: PMI
+    company_logo: pmi.png
+    company_url: https://pmirnc.com/
+    designation: FullStack Developer
+    description: 피앰아이
+    visibility: true
 
 # Education
 author_education_details:
-              - college_logo:
-                college_name:
-                college_url:
-                college_degree:
-                description:
-                visibility:
+  - college_logo:
+    college_name:
+    college_url:
+    college_degree:
+    description:
+    visibility:
 
 # Projects
 author_project_details:
-              - project_thumbnail: gamershub.png
-                project_title: 유니서베이
-                project_description: 웹 설문 제작 플랫폼
-                project_url: https://unisurvey.co.kr
-                visibility: true
+  - project_thumbnail: unisurvey_logo.jpeg
+    project_title: 유니서베이
+    project_description: 웹 설문 제작 플랫폼
+    project_url: https://unisurvey.co.kr
+    visibility: true
 
 # social links
 twitter_username: _getters
-github_username:  dahoon06
-facebook_username:
-linkedin_username:
+github_username: dahoon06
+facebook_username: 100003756210825
+linkedin_username: 다훈-전-702984242
 behance_username:
 instagram_username:
 medium_username:
@@ -127,21 +124,18 @@ collections:
     output: true
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "gallery"
     values:
       permalink: /:path/:basename:output_ext
-  -
-    scope:
+  - scope:
       path: ""
       type: authors
     values:
       layout: author
       permalink: /blog/authors/:slug
-  -
-    scope:
-      path: 'assets/**'
+  - scope:
+      path: "assets/**"
     values:
       sitemap: false
 
@@ -162,7 +156,6 @@ jekyll_admin:
   #   - datafiles
   #   - configuration
   homepage: "posts"
-
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -213,6 +206,5 @@ exclude:
   - assets/bower_components/lightgallery/test/lightgallery.html
   - assets/bower_components/masonry-layout/README.md
   - assets/bower_components/imagesloaded/README.md
-
 
 destination: ./build
