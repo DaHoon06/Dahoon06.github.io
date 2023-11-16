@@ -2,7 +2,7 @@
 layout: post
 title: "웹 접근성이란?"
 summary: "Web Accessibility"
-author: dahoon
+author: dahoon06
 date: "2023-07-26 00:00:00 +0530"
 category: web
 thumbnail: /assets/img/posts/accessibility.jpg
