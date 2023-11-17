@@ -3,7 +3,7 @@ layout: post
 title: "새 블로그 이전"
 summary: "티스토리 안녕"
 author: dahoon06
-date: "2023-11-27 00:00:00 +0530"
+date: "2023-11-17 00:00:00 +0530"
 category: blog
 thumbnail: 
 keywords: 개발 블로그
