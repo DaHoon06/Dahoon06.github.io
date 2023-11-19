@@ -4,10 +4,10 @@ title: "대시보드 프로젝트 준비"
 summary: "의미있는 사이드 프로젝트 해보기"
 author: dahoon06
 date: "2023-11-27 00:00:00 +0530"
-category: web
+category: development
 thumbnail: 
 keywords: 사이드프로젝트
-permalink: /blog/pmi-dashboard/
+permalink: /blog/development/pmi-dashboard/
 usemathjax: true
 ---
 
