@@ -1,8 +1,8 @@
 ---
 name: DaHoon
-username: dahoon
-bio: "Hi I a John, a Web Developer and Designer."
-site: http://dahoon06.github.io
+username: DaHoon06
+bio: "Node.js Developer"
+site: https://dahoon06.github.io
 avatar: dahoon.png
 email: dahoon226@gmail.com
 social:
