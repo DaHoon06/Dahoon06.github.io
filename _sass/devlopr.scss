@@ -151,6 +151,9 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+p {
+  font-size: 1.25rem !important;
+}
 
 .reactions-view {
   color: var(--bold-color) !important;
@@ -225,6 +228,12 @@ pre {
   display: block;
   font-size: 87.5%;
   color: #d4d4d4 !important;
+  font-family: $omyu_pretty !important;
+
+  code {
+    font-family: $omyu_pretty !important;
+    font-size: 87.5%;
+  }
 }
 
 .m10 {
@@ -237,6 +246,7 @@ blockquote {
   background: var(--main-background-color) !important;
   border: 1px solid;
   color: var(--bold-color);
+  font-family: $omyu_pretty !important;
 }
 
 /* Scrollbar */
