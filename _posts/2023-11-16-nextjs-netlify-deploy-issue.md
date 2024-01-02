@@ -43,7 +43,7 @@ module.exports = {
 
 이 rewrite() 설정은 말 그대로 source 경로를 destinations 에 설정한 경로로 변경해주는 것이다 보니 현재 Page 전환이 이루어지지 않는 이슈와는 전혀 상관이 없다 라는 생각이 들었고, rewrite() 설정을 지우고 public 디렉토리에 `_redirects` 파일을 생성하여 루트 경로를 지정해주었다.
 
-```
+```text
 // public > _redirects
 
 /* /index.html 200
@@ -223,7 +223,7 @@ Next.js 를 build 를 할 경우 index.html 이 없다. (export 해도 마찬가
 
 또한 network URL을 확인해보면 domain/_next/data/[filename].json 와 같이 작성한 javascript 파일이 json 파일이 되어 읽혀지는 것을 알 수 있다.
 
-```
+```text
 # Nextjs URL
 localhost:3000/_next/data/quizzes.json?size=5
 
