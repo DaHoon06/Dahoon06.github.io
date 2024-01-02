@@ -104,19 +104,11 @@ html[data-theme="light"] {
 html,
 html[data-theme="dark"],
 html[data-theme="light"] {
-  height: 100%;
+  height: auto !important;
+  min-height: 100vh !important;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
-}
-
-html {
-  height: auto;
-  min-height: 100vh;
-}
-
-body {
-  height: 100%;
 }
 
 p > img {
@@ -165,6 +157,7 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
 p {
   font-size: 1.25rem !important;
 }

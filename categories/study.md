@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Guides
-permalink: /blog/categories/issue/
+permalink: /blog/categories/study/
 ---
 
 <h5> Posts by Category : {{ page.title }} </h5>
