@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Nest.js Netlify 배포 이슈"
+title: "Next.js Netlify 배포 이슈"
 summary: "SPA가 아닌 프로젝트 배포"
 author: dahoon06
 date: "2023-11-16 00:00:00 +0530"
