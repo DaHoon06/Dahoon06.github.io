@@ -1,16 +1,17 @@
 /* devlopr-jekyll styling */
-
-@font-face {
-  font-family: "omyu_pretty";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-}
+//
+//@font-face {
+//  font-family: "omyu_pretty";
+//  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2")
+//    format("woff2");
+//  font-weight: normal;
+//  font-style: normal;
+//  font-size: 24px;
+//}
 
 /* variables */
-$omyu_pretty: "omyu_pretty";
+$pretandard: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+//$omyu_pretty: "omyu_pretty";
 $body-typeface: "Quicksand", sans-serif;
 $nav-typeface: "Gill sans";
 $mono-typeface: Menlo, Monaco, monospace;
@@ -148,7 +149,7 @@ ul {
 body {
   background-color: var(--main-background-color) !important;
   color: var(--main-text-color) !important;
-  font-family: $omyu_pretty !important;
+  font-family: $pretandard !important;
   font-feature-settings: "kern" on;
   font-size: 1.4rem;
   font-variant-numeric: oldstyle-nums;
@@ -239,16 +240,16 @@ pre {
   display: block;
   font-size: 87.5%;
   color: #d4d4d4 !important;
-  font-family: $omyu_pretty !important;
+  font-family: $pretandard !important;
 
   code {
-    font-family: $omyu_pretty !important;
+    font-family: $pretandard !important;
     font-size: 87.5%;
   }
 }
 
 code {
-  font-family: $omyu_pretty !important;
+  font-family: $pretandard !important;
 }
 
 .m10 {
@@ -262,7 +263,7 @@ blockquote {
   padding: 3px 10px 3px 0.8em;
   background: var(--main-background-color) !important;
   color: var(--bold-color);
-  font-family: $omyu_pretty !important;
+  font-family: $pretandard !important;
 }
 
 /* Scrollbar */

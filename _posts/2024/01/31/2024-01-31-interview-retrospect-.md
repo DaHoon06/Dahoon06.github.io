@@ -25,7 +25,7 @@ usemathjax: true
 
 하지만 구글에 검색하면 잘 나온다. 이 이유는 업체에 맡겼기 때문일 것이다.
 
-![유니서베이 구글 검색 결과]({{site.baseurl}}/assets/img/posts/2024/01/31/unisuvey_google_search.png)
+![유니서베이 구글 검색 결과]({{site.baseurl}}/assets/img/posts/2024/01/31/unisurvey_google_search.png)
 
 유니서베이를 개발하면서 내가 했던 일이라고는 업체에서 시키는대로 google analytics, google tag manager (구글 코리아 도움), naver search (대행 업체를 이용) 이게 끝이다.
 
