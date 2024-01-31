@@ -3,7 +3,7 @@ layout: post
 title: "24 년도 첫 인터뷰 회고"
 summary: "부족한게 많구나.."
 author: dahoon06
-date: "2023-12-31 00:00:00 +0530"
+date: "2024-01-31 00:00:00 +0530"
 category: diary
 thumbnail: 
 keywords: 회고

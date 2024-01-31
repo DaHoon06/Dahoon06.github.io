@@ -49,7 +49,7 @@ module.exports = {
 /* /index.html 200
 ```
 
-![NotFoundPage]({{site.baseurl}}/assets/img/posts/231116/netlify-not-found.png)
+![NotFoundPage]({{site.baseurl}}/assets/img/posts/2023/11/16/netlify-not-found.png)
 
 하지만 첫 화면 조차 보이지 않는....
 
@@ -84,9 +84,9 @@ https://www.npmjs.com/package/@netlify/plugin-nextjs
 
 하지만 `netlify.toml` 파일을 생성한 뒤로부터는 build 조차 되지 않는 문제가 발생…
 
-![deploy-failed-list]({{site.baseurl}}/assets/img/posts/231116/failed-lists.png)
+![deploy-failed-list]({{site.baseurl}}/assets/img/posts/2023/11/16/failed-lists.png)
 
-![deploy-failed-console]({{site.baseurl}}/assets/img/posts/231116/failed-console.png)
+![deploy-failed-console]({{site.baseurl}}/assets/img/posts/2023/11/16/failed-console.png)
 
 deploy config가 문제인 것 같아 deploy 설정을 변경해보았다.
 
@@ -107,7 +107,7 @@ deploy config가 문제인 것 같아 deploy 설정을 변경해보았다.
 
 설정을 변경해주어 build 는 성공하였지만 여전히 사이트는 동작하지 않음
 
-![NotFoundPage]({{site.baseurl}}/assets/img/posts/231116/netlify-not-found.png)
+![NotFoundPage]({{site.baseurl}}/assets/img/posts/2023/11/16/netlify-not-found.png)
 
 좀 더 원인을 찾던 중에 알게된 건 Next.js 에서 정적 페이지를 배포하더라도 React에서 배포했던 방식처럼 단순히 deploy 설정만 해준다고 되는게 아니라고 한다.
 
