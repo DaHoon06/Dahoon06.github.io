@@ -143,7 +143,6 @@ ul {
   width: 100%;
   overflow: hidden;
   z-index: 1;
-  margin-top: 25px;
 }
 
 body {
@@ -344,7 +343,7 @@ header {
   display: flex;
   justify-content: space-between;
   background-color: var(--main-background-color) !important;
-  padding: 0.5rem 0 !important;
+  padding: 0.5rem 1rem !important;
 }
 
 #navbar-hamburger,
