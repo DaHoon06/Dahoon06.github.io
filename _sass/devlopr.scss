@@ -344,6 +344,10 @@ header {
   justify-content: space-between;
   background-color: var(--main-background-color) !important;
   padding: 0.5rem 1rem !important;
+
+  ul {
+    margin-left: 0 !important;
+  }
 }
 
 #navbar-hamburger,
