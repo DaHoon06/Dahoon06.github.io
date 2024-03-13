@@ -333,10 +333,9 @@ header {
 }
 
 .card {
-  margin: 20px !important;
-  padding: 20px !important;
+  margin: auto !important;
   background-color: var(--card-background-color) !important;
-  //border: 1px solid var(--border_color) !important;
+  border: 1px solid transparent;
   border-radius: 4px !important;
 }
 
