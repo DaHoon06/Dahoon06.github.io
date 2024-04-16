@@ -1,23 +1,32 @@
 ---
 layout: post
-title: "NestJS Unit Test 하기 "
-summary: "우물 안의 개구리 탈출"
+title: "Jest를 활용한 함수 테스트 (with NestJS) "
+summary: "개발 노트"
 author: dahoon06
 date: "2024-03-12 00:00:00 +0530"
 category: development
 thumbnail: 
-keywords: NejstJS Jest UnitTesting
+keywords: NestJS Jest UnitTesting
 permalink: /blog/development/2024-03-12-NestJS-Jest/
 usemathjax: true
 ---
 
-늘 유닛 테스트에 대한 관심은 있었지만 막상 프로젝트 내에 어떻게 녹여내야할지 고민이 많았다. 그래서 조그만한 프로젝트 내에서 혼자 작성해본게 다였는데 이번에 한 번 Jest를 도입해보기로 했다.
+Nest Cli 로 프로젝트를 설치하면 기본적으로 Jest가 함께 설치가 되는데 이 Jest가 어떤 역할을 하고 있는지 아시나요?
 
-팀에서의 백엔드는 NestJS를 사용하고 있고, cli로 설치 시에 기본적으로 Jest가 함께 설치된다.
+![실습 코드 구조]({{site.baseurl}}/assets/img/posts/2024/03/12/package-json-jest.png)
 
-나는 import 경로를 alias path를 사용하고 있다. 그렇다면 Jest 설정도 동일한 alias path로 설정해줘야 한다.
+Jest는 JavaScript로 작성된 코드를 쉽게 테스트할 수 있도록 도와주는 테스팅 프레임워크 입니다.
+
+JavaScript로 동작하기 때문에 NestJS 뿐만 아니라, Vue, React 등 JavaScript 기반 프레임워크에서는 다 사용할 수 있습니다.
+
+[Jest 공식 홈페이지](https://jestjs.io/)
+
+[NPM](https://www.npmjs.com/package/jest)
+
+Nest Cli를 통해 프로젝트를 셋업하면 별도의 설치 없이 Jest를 사용할 수 있어요.
 
 ```json
+// package.json
 {
   "jest": {
     "moduleFileExtensions": [
@@ -30,393 +39,640 @@ usemathjax: true
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "moduleNameMapper": {
-      "^@decorators/(.*)$": "<rootDir>/decorators/$1",
-      "^@filters/(.*)$": "<rootDir>/filters/$1",
-      "^@interceptors/(.*)$": "<rootDir>/interceptors/$1",
-      "^@modules/(.*)$": "<rootDir>/modules/$1",
-      "^@config/(.*)$": "<rootDir>/config/$1",
-      "^@common/(.*)$": "<rootDir>/common/$1",
-      "^@utils/(.*)$": "<rootDir>/utils/$1"
-    },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/../jest.setup.ts"
-    ]
+    "testEnvironment": "node"
   }
 }
 ```
 
-그리고 env 파일을 사용하기 위해 root 위치에 jest.setup.ts 파일을 생성해 주었다.
+package.json을 살펴보면 `.spec.ts` 라는 이름이 붙은 파일의 경우 테스트 파일로 읽도록 설정이 되어있습니다. 
+
+![app.spec.ts.file]({{site.baseurl}}/assets/img/posts/2024/03/12/app-spec.png)
+
+그래서 Nest Cli로 프로젝트를 만들면 spec 파일이 함께 있는 것을 볼 수 있는데요.
+
+다시 package.json으로 돌아와 test 관련 scripts를 실행시켜주면 jest는 프로젝트 내의 `.spec.ts` 파일을 읽어 실행 시키게 됩니다.
+
+```json
+{
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  }
+}
+```
+
+백엔드에서 내가 만든 함수가 제대로 동작하는지 확인을 하고 싶을 때 포스트맨으로 해당 api에 요청을 보내 테스트를 했는데 Jest를 이용하면 이러한 과정을 생략하고 원하는 함수만 테스트를 해볼 수 있습니다.
+
+간단한 예제를 통해서 Jest를 어떻게 활용할 수 있을지 이야기해보려고 합니다.
+
+## 1. 모듈을 사용하지 않은 함수 테스트 하기
+
+Nest 모듈을 사용하지 않는 다는 건 일반 함수를 분리하여 이를 Nest 모듈 내에 사용하는 방식을 의미합니다. 제가 작업을 하면서 Jest를 어떻게 활용했는지 에제를 통해 보여드리려고 합니다.
+
+![dir1]({{site.baseurl}}/assets/img/posts/2024/03/12/dir1.png)
+
+테스트 시나리오는 아래와 같습니다.
 
 ```typescript
-// jest.setup.ts
-import * as dotenv from 'dotenv';
-
-dotenv.config({
-  path: `${__dirname}/.env_test`,
+describe("유니서베이 문항 순서 변환 테스트", () => {
+  test("쿼터 문항의 위치를 SQ_RECODE 뒤 쪽에 위치하도록 한다.", () => {});
 });
 ```
 
-테스팅 준비는 끝! 그렇다면 이제 뭘 해야할까?
-
-테스트 파일을 생성하고 그 안에 필요한 값을 준비해주고 내가 원하는 형태가 나올 때 까지 함수를 작성해주면 된다.
-
-먼저 간단하게 시작 날짜와 종료 날짜를 전달 받고 남은 시간을 string 형태로 반환 해주는 함수를 테스트 해보겠다.
+쉽게 말하면
 
 ```typescript
-// @utils/date.ts
-/**
- * @param startDate
- * @param endDate
- * @description 설문 종료까지 남은 시간 구하기
- */
-export const remainTime = (startDate: Date, endDate: Date): string => {
-  return `분`  
+const data = [
+  {
+    questionIndex: 1,
+    questionNumber: "DESC",
+  },
+  {
+    questionIndex: 2,
+    questionNumber: "SQ1",
+  },
+  {
+    questionIndex: 3,
+    questionNumber: "SQ2",
+  },
+  {
+    questionIndex: 4,
+    questionNumber: "SQ2_RECODE",
+  },
+  {
+    questionIndex: 5,
+    questionNumber: "SQ3",
+  },
+  {
+    questionIndex: 6,
+    questionNumber: "QUOTA_SQ1_SQ2",
+  },
+];
+```
+
+이런 데이터의 형태를 아래와 같이 변경해주는 함수를 만들 겁니다.
+
+```typescript
+const expectedData = [
+      {
+        questionIndex: 1,
+        questionNumber: "DESC",
+      },
+      {
+        questionIndex: 2,
+        questionNumber: "SQ1",
+      },
+      {
+        questionIndex: 3,
+        questionNumber: "SQ2",
+      },
+      {
+        questionIndex: 4,
+        questionNumber: "SQ2_RECODE",
+      },
+      {
+        questionIndex: 5,
+        questionNumber: "QUOTA_SQ1_SQ2",
+      },
+      {
+        questionIndex: 6,
+        questionNumber: "SQ3",
+      },
+    ];
+```
+
+```typescript
+type InsertQuestionDto = {
+  questionIndex: number;
+  questionNumber: string;
+};
+
+/**@description 쿼터 모듈 추가 - SQ2 문항 뒤로 순서 바꾸기
+ * @param {InsertQuestionDto[]} question 설문 정보가 담긴 배열 data
+ * @param {string} cursor 이동할 문항의 인덱스가 될 questionNumber
+ * @param {string} target 이동시킬 문항 questionNumber
+ * */
+export const changeQuestionsIndex = (
+    question: InsertQuestionDto[],
+    cursor: string,
+    target: string,
+  ): InsertQuestionDto[] => {
+    return [];
+  };
+
+describe("유니서베이 문항 순서 변환 테스트", () => {
+  // jest Mock을 사용하여 가상의 목킹 함수를 생성
+  let changeQuestionsIndexMockFn: jest.Mock<InsertQuestionDto[], [InsertQuestionDto[], string, string]>;
+  // 실제 데이터가 들어갈 곳
+  let data: InsertQuestionDto[] = [];
+  // 내가 원하는 데이터 형태
+  let expectedData: InsertQuestionDto[] = [];
+
+  // 필요한 함수 및 데이터 셋업
+  beforeEach(() => {
+    // 함수 초기화
+    changeQuestionsIndexMockFn = jest.fn(changeQuestionsIndex);
+    // 데이터 셋업
+    data = [
+      {
+        questionIndex: 1,
+        questionNumber: "DESC",
+      },
+      {
+        questionIndex: 2,
+        questionNumber: "SQ1",
+      },
+      {
+        questionIndex: 3,
+        questionNumber: "SQ2",
+      },
+      {
+        questionIndex: 4,
+        questionNumber: "SQ2_RECODE",
+      },
+      {
+        questionIndex: 5,
+        questionNumber: "SQ3",
+      },
+      {
+        questionIndex: 6,
+        questionNumber: "QUOTA_SQ1_SQ2",
+      },
+    ];
+
+    // 내가 원하는 데이터 형태
+    expectedData = [
+      {
+        questionIndex: 1,
+        questionNumber: "DESC",
+      },
+      {
+        questionIndex: 2,
+        questionNumber: "SQ1",
+      },
+      {
+        questionIndex: 3,
+        questionNumber: "SQ2",
+      },
+      {
+        questionIndex: 4,
+        questionNumber: "SQ2_RECODE2",
+      },
+      {
+        questionIndex: 5,
+        questionNumber: "QUOTA_SQ1_SQ2", // <-- 변경
+      },
+      {
+        questionIndex: 6,
+        questionNumber: "SQ3", // <-- 변경
+      },
+    ];
+  });
+  
+  test("쿼터 문항의 위치를 SQ_RECODE 뒤 쪽에 위치하도록 한다. target을 cursor 위치로 이동", () => {
+    // target을 cursor 위치로 이동
+    const target = "QUOTA_SQ1_SQ2"; 
+    const cursor = "SQ3";
+    
+    expect(changeQuestionsIndexMockFn(data, cursor, target)).toEqual(expectedData);
+  });
+});
+```
+
+위 테스트 케이스를 실행 시키면 `changeQuestionsIndex` 반환값이 제가 원하는 데이터 형태가 아니기 때문에 실패한 테스트를 반환합니다.
+
+![test-result]({{site.baseurl}}/assets/img/posts/2024/03/12/result1.png)
+
+이제 이 함수를 성공하는 테스트 케이스로 만들기 위해 `changeQuestionsIndex` 함수를 완성해보겠습니다.
+
+```typescript
+/**@description 쿼터 모듈 추가 - SQ2 문항 뒤로 순서 바꾸기
+ * @param {InsertQuestionDto[]} question 설문 정보가 담긴 배열 data
+ * @param {string} cursor 이동할 문항의 인덱스가 될 questionNumber
+ * @param {string} target 이동시킬 문항 questionNumber
+ * */
+export const changeQuestionsIndex = (
+  question: InsertQuestionDto[],
+  cursor: string,
+  target: string,
+): InsertQuestionDto[] => {
+  const cursorIndex = question.findIndex((v) => v.questionNumber === cursor);
+  const targetIndex = question.findIndex((v) => v.questionNumber === target);
+
+  function moveValue(
+    array: InsertQuestionDto[],
+    fromIndex: number,
+    toIndex: number,
+  ) {
+    const item = array.splice(fromIndex, 1)[0];
+    array.splice(toIndex, 0, item);
+  }
+
+  moveValue(question, targetIndex, cursorIndex);
+
+  return question
+    .map((value, index) => {
+      return {
+        ...value,
+        questionIndex: index + 1,
+      };
+    })
+    .sort((a, b) => a.questionIndex - b.questionIndex);
 };
 ```
 
-```typescript
-import { remainTime } from '@utils/date';
+함수를 작성하고 테스트를 다시 해보면 제가 원하는 형태의 데이터를 반환하기 때문에 성공하는 테스트 케이스로 바뀝니다.
 
-describe('utils/date.ts test case', () => {
-  let remainTimeMock: jest.Mocked<string, [Date, Date]>;
-  let expectedTime = '';
+![test-result2]({{site.baseurl}}/assets/img/posts/2024/03/12/result2.png)
+
+그렇다면 제가 원하는 데이터 형태를 변경한다면?
+
+```typescript
+expectedData = [
+  .
+  .
+      {
+        questionIndex: 4,
+        questionNumber: "SQ2_RECODE2", // data는 SQ2_RECODE 인데 exptededData 는 SQ2_RECODE2
+      },
+  .
+  .
+     
+    ];
+```
+
+![test-result3]({{site.baseurl}}/assets/img/posts/2024/03/12/result3.png)
+
+테스트 케이스는 실패하면서 잘못된 곳을 알려주기 때문에 어떤 부분이 잘못됐는지 확인하여 함수를 수정할 수 있습니다.
+
+이렇게 함수를 테스트할 때 **내가 원하는 데이터가 어떤 형태인지 정하고**, **실제로 들어가는 데이터는 어떤 형태인지 정한 후**에 내가 원하는 데이터가 나오도록 함수를 작성하면 잘못된 곳이 어딘지 확인할 수 있습니다.
+
+만약 테스트 케이스가 여러 개라면 마찬가지로 각각의 데이터 형태를 정의하고 여러 테스트 케이스를 작성해주면 됩니다.
+
+```typescript
+
+describe("process.env.COLLECTOR_PROJECT_NUMBER CHECK", () => {
+  let collectorSurveyCheckMockFn: jest.Mock<boolean, [number]>;
+  let projectNumber = 0;
   
   beforeEach(() => {
-    // 함수 초기화
-    remainTimeMock = jest.fn(remainTime);
+    collectorSurveyCheckMockFn = jest.fn(collectorSurveyCheck);
+    projectNumber = process.env.COLLECTOR_PROJECT_NUMBER; 
+  });
+  
+  test.skip("process.env.COLLECTOR_PROJECT_NUMBER을 읽을 수 있는지 체크한다.", () => {
+    const expectedNumber = 10000000;
+    expect(projectNumber).not.toEqual(expectedNumber);
   });
 
-  test('Retrun Value : 20 분', () => {
-    const startDate = new Date('2024-02-08T11:32:32.029+09:00');
-    const endDate = new Date('2024-02-08T11:52:32.029+09:00');
-    
-    expectedTime = '20 분'; // 원하는 데이터 : 20분
+  test.skip("process.env.COLLECTOR_PROJECT_NUMBER가 숫자형인지 체크한다.", () => {
+    const expectedNumber = 10000000;
+    expect(typeof projectNumber).toEqual(typeof expectedNumber);
+  });
 
-    expect(remainTimeMock(startDate, endDate)).toEqual(expectedTime);
+  test.skip("process.env.COLLECTOR_PROJECT_NUMBER에 문자열이 들어갔을 때 NaN을 반환하는지 체크한다.", () => {
+    expect(String(projectNumber)).toBeNaN();
+  });
+
+  test.skip("SNUM을 넘겼을 때 boolean 값을 넘겨 받는지 체크한다.", () => {
+    const SNUM = 9999999;
+    expect(collectorSurveyCheckMockFn(SNUM)).toBeTruthy();
+  });
+
+  test.skip("process.env.COLLECTOR_PROJECT_NUMBER 가 NaN 일 때 DEFAULT_NUMBER를 반환하는지 확인", () => {
+    const SNUM = 9999999;
+    expect(collectorSurveyCheckMockFn(SNUM)).toEqual(DEFAULT_NUMBER);
+  });
+
+  test.skip("최종 함수 테스트 콜렉터는 true, 메타서베이는 false를 반환해야한다.", () => {
+    const SNUM = 1000001; // 유니 설문
+    expect(collectorSurveyCheckMockFn(SNUM)).toBeTruthy();
   });
 });
 ```
 
-테스트 코드 작성이 끝이 났다 이 상태에서 스크립트를 실행시킨다면 당연 remainTime 함수가 비어 있기 때문에 실패하는 테스트가 된다.
-이제 이 함수가 성공할 수 있도록 remainTime 함수 내용을 채워보자.
+## 2. Nest 모듈을 이용하여 Service 함수 테스트 하기
 
+일반 함수 테스트의 경우 export 된 함수를 .spec.ts 파일에 import 해서 함수를 테스트 했지만 Nest Service를 테스트 하기 위해서는 **가상의 Nest Module을 만들어서 사용** 해야합니다.
 
-```typescript
-// @utils/date.ts
-/**
- * @param startDate
- * @param endDate
- * @description 설문 종료까지 남은 시간 구하기
- */
-export const remainTime = (startDate: Date, endDate: Date): string => {
-  const currentTime = startDate.getTime();
-  const endTime = endDate.getTime();
-
-  const remainMilliseconds = endTime - currentTime;
-
-  const remainSecond = Math.floor(remainMilliseconds / 1000);
-  const remainMinutes = Math.floor(remainSecond / 60); // 분으로 표현
-  const remainHours = Math.floor(remainMinutes / 60); // 시간으로 표현
-  const remainDays = Math.floor(remainHours / 24); // 하루로 표현
-
-  // 시간, 분, 초를 남은 시간으로 변환
-  const hoursRemainder = remainHours % 24;
-  const minutesRemainder = remainMinutes & 60;
-
-  if (remainDays > 0)
-    return `${remainDays} 일 ${hoursRemainder} 시간 ${minutesRemainder} 분`;
-  else if (hoursRemainder > 0)
-    return `${hoursRemainder} 시간 ${minutesRemainder} 분`;
-  else return `${minutesRemainder}분`; 
-};
-```
-
-분에 따라 남은 기간을 표기하는 함수가 작성되었다. 위 테스트 케이스에서는 "분" 만 테스트 해보았는데 그렇다면 시간, 일은???
-
-간단하다. 테스트 케이스를 추가하면된다.
+Nest Cli 로 생성했을 때 생성된 app.controller.spec.ts를 보면 가상의 테스팅 모듈을 만들어서 사용한 것을 확인할 수 있습니다.
 
 ```typescript
-import { remainTime } from '@utils/date';
+// app.controller.spec.ts
+describe('AppController', () => {
+  let appController: AppController;
 
-describe('utils/date.ts test case', () => {
-  let remainTimeMock: jest.Mocked<string, [Date, Date]>;
-  let expectedTime = '';
-  
-  beforeEach(() => {
-    // 함수 초기화
-    remainTimeMock = jest.fn(remainTime);
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [AppController],
+      providers: [AppService],
+    }).compile();
+
+    appController = app.get<AppController>(AppController);
   });
 
-  test('Retrun Value : 20 분', () => {
-    const startDate = new Date('2024-02-08T11:32:32.029+09:00');
-    const endDate = new Date('2024-02-08T11:52:32.029+09:00');
-    
-    expectedTime = '20 분'; // 원하는 데이터 : 20분
-
-    expect(remainTimeMock(startDate, endDate)).toEqual(expectedTime);
-  });
-
-  test('Retrun Value : 2 시간 20 분', () => {
-    const startDate = new Date('2024-02-08T11:32:32.029+09:00');
-    const endDate = new Date('2024-02-08T13:52:32.029+09:00');
-
-    expectedTime = '2 시간 20 분'; // 원하는 데이터 : 20분
-
-    expect(remainTimeMock(startDate, endDate)).toEqual(expectedTime);
-  });
-
-  test('Retrun Value : 2 일 2 시간 20 분', () => {
-    const startDate = new Date('2024-02-08T11:32:32.029+09:00');
-    const endDate = new Date('2024-02-10T13:52:32.029+09:00');
-
-    expectedTime = '2일 2 시간 20 분'; // 원하는 데이터 : 20분
-
-    expect(remainTimeMock(startDate, endDate)).toEqual(expectedTime);
+  describe('root', () => {
+    it('should return "Hello World!"', () => {
+      expect(appController.getHello()).toBe('Hello World!');
+    });
   });
 });
 ```
 
-지금까지는 함수를 테스트 했는데 그렇다면 NestJS에서의 모듈을 테스트 하는 방법은 어떻게 해야할까?
-
-> 상황 : 설문 조사 등록을 위해 전달 받은 데이터를 가공하여 expectedData 형태로 가공하는 service 로직을 만들어야한다.
-  데이터는 아래의 mockData 형태로 넘어온다면 이를 가공하여 expectedData 형태로 가공하여 저장해야한다.
+클라이언트에서 전달 받은 값에 따라 지역 정보 배열을 반환하는 테스트 서비스 함수를 테스트 해보겠습니다. (패널 허브 v3 기준)
 
 ```typescript
-describe('프로젝트 등록에 사용될 demoGraphic 값을 구합니다.', () => {
+const locationValue1 = ['전국']; // 전국
+const locationValue2 = ['서울', '인천/경기']; // 서울 / 인천 / 경기
+const locationValue3 = ['서울', '지방 5대 광역시']; // 서울 / 5대광역시
+const locationValue4 = ['인천/경기', '지방 5대 광역시']; // 인천 / 경기 / 5대광역시
+
+const locationValue5 = ['서울']; // 서울 / 인천 / 경기
+const locationValue6 = ['인천/경기']; // 서울 / 5대광역시
+const locationValue7 = ['지방 5대 광역시']; // 인천 / 경기 / 5대
+
+describe('전달 받은 값에 따라 지역 정보 배열을 반환합니다.', () => {
   let quotaCalculationService: QuotaCalculationService;
-
-  const mockData = {
-    projectGender: ['전체'], // female, all
-    projectLocation: ['전국'], // 전국 서울 인천/경기 / 지방5대광역시
-    projectAge: {
-      type: '10세단위', // age5 age10 ageAll
-      ageValue: ['1', '2', '3', '4'],
-    },
-    projectQuotaTable: {
-      label: [],
-      body: [
-        {
-          label: '남성',
-          quotaCount: ['25', '25', '25', '25'],
-          total: '100',
-        },
-        {
-          label: '여성',
-          quotaCount: ['25', '25', '25', '25'],
-          total: '100',
-        },
-      ],
-    },
-  };
-
-  const expectedData = {
-    age: [
-      {
-        min: 14,
-        max: 19,
-      },
-      {
-        min: 20,
-        max: 24,
-      },
-      {
-        min: 25,
-        max: 29,
-      },
-      {
-        min: 30,
-        max: 34,
-      },
-    ],
-    region: type1,
-    gender: ['남성'],
-  };
+  let getRegionDataMockFn: jest.Mock<string[], [string[]]>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [QuotaCalculationService],
+      providers: [
+        QuotaCalculationService,
+        { provide: I18nService, useValue: {} },
+        { provide: TargetQuotaRepository, useValue: {} },
+      ],
     }).compile();
 
     quotaCalculationService = module.get<QuotaCalculationService>(
       QuotaCalculationService,
     );
+
+    getRegionDataMockFn = jest.fn(quotaCalculationService.getRegionData);
   });
 
-  test('project.data.service be defined', () => {
-    expect(quotaCalculationService).toBeDefined();
+  test('전국을 입력했을 경우 지역 전체 배열을 반환 - CASE 1', () => {
+    expect(getRegionDataMockFn(locationValue1)).toEqual(type1);
   });
 
-  test('전달 받은 demoGraphic 데이터를 변환한다.', () => {
-    jest.spyOn(quotaCalculationService, 'makeDemoGraphicData');
-    
-    const result = quotaCalculationService.makeDemoGraphicData(mockData);
-    expect(result).toEqual(expectedData);
+  test('서울을 입력했을 경우 서울을 반환 - CASE 2', () => {
+    expect(getRegionDataMockFn(locationValue5)).toEqual(type2);
+  });
+
+  test('인천 / 경기를 입력했을 경우 인천 경기 세종을 반환 - CASE 3', () => {
+    expect(getRegionDataMockFn(locationValue6)).toEqual(type3);
+  });
+
+  test('지방 5대 광역시를 입력했을 경우 CASE 2 3을 제외한 지역 반환 - CASE4 ', () => {
+    expect(getRegionDataMockFn(locationValue7)).toEqual(type4);
+  });
+
+  test('서울 / 인천 / 경기 입력했을 경우 - CASE 5', () => {
+    expect(getRegionDataMockFn(locationValue2)).toEqual(type5);
+  });
+
+  test('인천 / 경기 / 지방5대 광역시를 입력했을 경우 인천 경기 세종을 반환 - CASE 6', () => {
+    expect(getRegionDataMockFn(locationValue4)).toEqual(type7);
+  });
+
+  test('서울 / 지방 5대 광역시를 입력했을 경우 CASE 2 3을 제외한 지역 반환 - CASE 6', () => {
+    expect(getRegionDataMockFn(locationValue3)).toEqual(type6);
   });
 });
 ```
 
-가상의 Testing Module을 만들고 그 안에 사용할 service의 의존 주입을 해주었다.
+각각의 테스트 케이스는 이렇게 됩니다. 
 
-그렇게 되면 service 내의 함수에 접근할 수 있게 된다.
+사용할 서비스는 QuotaCalculationService에 있는 getRegionData 함수를 테스를 하기 위해 가상의 테스팅 모듈을 생성하였습니다.
+
+이번 함수에서는 I18n과 TargetQuotaRepository는 사용하지 않지만 의존 주입을 위해 Testing Module의 Provider에 등록해주었습니다.
 
 ```typescript
-/**
- * @description demoGraphic 데이터 변환
- * 필요한 정보 age[] => {min: 10, max: 19},
- * 필요한 정보 region[] => [서울, 부산]
- * 필요한 정보 gender[] => [남성, 여성]
- */
-// 받아야하는 정보는 쿼터 정보
-makeDemoGraphicData({
-  projectGender,
-  projectLocation,
-  projectAge,
-}: DemoGraphicParamDto): ProjectDemoGraphic {
-  // 쿼터 초기 데이터
-  const quotaInfo = quotaAgeInitialState.filter(
-          (age) => age.target === projectAge.type,
-  );
-  const demoGraphic = {
-    age: [],
-    region: [],
-    gender: [],
-  };
-
-  if (quotaInfo.length > 0) {
-    const { detail } = quotaInfo[0]; // 값이 존재한다는 것은 데이터가 있는 것
-    // age format
-    demoGraphic.age = projectAge.ageValue.flatMap((age) => {
-      return detail
-              .map((detail) => {
-                if (detail.value === age) {
-                  const minmax = detail.label.split('~');
-                  return {
-                    min: Number(minmax[0]),
-                    max: Number(minmax[1]),
-                  };
-                }
-              })
-              .filter((v) => v);
-    });
-
-    // gender
-    demoGraphic.gender = projectGender.flatMap((gender: string) => {
-      const all = gender === QuotaGenderType.ALL;
-      if (all) return [Gender.MALE, Gender.FEMALE];
-      else if (gender === QuotaGenderType.MALE) return [Gender.MALE];
-      else return [Gender.FEMALE];
-    });
-
-    // location
-    demoGraphic.region = this.getRegionData(projectLocation);
+@Injectable()
+export class QuotaCalculationService {
+  constructor(
+    private readonly i18n: I18nService,
+    private readonly targetQuotaRepository: TargetQuotaRepository,
+  ) {}
+  
+  // 지역 정보 반환
+  getRegionData(locations: string[]): string[] {
+    return [];
   }
-  return demoGraphic;
 }
 ```
 
-지금은 service 내에서 다른 repository를 참조하고 있지 않지만 만약 참조를 하고 있다면 service와 동일하게 테스팅 모듈에 의존 주입을 해주어야한다.
+만약 ['전국'] 이라는 값이 getRegionData에 전달된다면 getRegionData는 ['서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'] 를 반환해야하고,
+
+['서울', '인천/경기'] 라는 값이 전달되면 ['서울','인천','경기','세종'] 을 반환하는 함수를 작성해야합니다.
+
+![test-result4]({{site.baseurl}}/assets/img/posts/2024/03/12/result4.png)
+
+각 케이스 별로 반환하는 정보를 확인할 수 있습니다. getRegionData 함수가 원하는 값을 반환하도록 함수를 작성해 줍니다.
 
 ```typescript
-describe('restaurantService Test Case', () => {
-  let service: RestaurantService;
-  let repository: RestaurantRepository;
-  let model: Model<RestaurantDocument>;
+@Injectable()
+export class QuotaCalculationService {
+  constructor(
+    private readonly i18n: I18nService,
+    private readonly targetQuotaRepository: TargetQuotaRepository,
+  ) {}
   
-  // DB에 담긴 가상 데이터
-  const stroeData: Restaurant[] = [
+  // 지역 정보 반환
+  getRegionData(locations: string[]): string[] {
+    return locations
+      .map((location) => {
+        return regionRepository[location];
+      })
+      .filter((v) => v)
+      .flat(2);
+  }
+}
+```
+
+![test-result5]({{site.baseurl}}/assets/img/posts/2024/03/12/result5.png)
+
+이렇게 각 케이스 별로 반환 값을 확인할 수 있기 때문에 혹시나 놓친 케이스가 있는지 확인하기도 쉽고 번거롭게 해당 함수를 사용하는 컨트롤러에 api를 요청하지 않고도 함수를 확인할 수 있습니다.
+
+저희는 DB 관련한 로직의 경우 repository로 따로 분리해서 사용하고 있는데요. 만약 서비스 함수 내에서 repository를 사용하여 조회를 할 경우는 어떻게 해야할까요?
+
+```typescript
+// projectService
+@Injectable()
+export class ProjectService {
+
+  constructor(
+    private readonly projectRepository: ProjectRepository,
+  ) {}
+
+  async findOneBySurveyId(surveyId: string) {
+    return this.projectRepository.findOne(surveyId); // 서비스 함수 내에서 레포지토리 호출
+  }
+}
+```
+
+정말 간단한 예시로 파라미터로 surveyId를 전달 받아 repository에서 findOne 하는 경우 입니다.
+
+```typescript
+@Injectable()
+export class ProjectRepository {
+  constructor(
+    @InjectModel(Project.name, ConnectionNames.PANEL_HUB_V3)
+    private readonly projectModel: Model<ProjectDocument>,
+  ) {}
+
+  async findOne(surveyId: string): Promise<ProjectDto> {
+    return this.projectModel.findOne({ surveyId });
+  }
+}
+```
+
+findOne은 surveyId를 전달받아 해당 하는 프로젝트 정보를 반환해주는 함수입니다.
+
+```typescript
+export const project = {
+  "_id" :  new Types.ObjectId("6604cf7d5d4537c754a6b733"),
+  "managers" : [
     {
-      _id,
-      storeId: '3f39c0f0-1ed8-4087-8740-a31c75365f10',
-      storeName: '치킨좋아',
-      userId: 'dahoon06',
-      region: {
-        major: '서울',
-        district: '구로구',
-        town: '구로동',
-      },
-      categories: {
-        majorCategory: '양식',
-        middleCategory: ['치킨', '튀김'],
-      },
-      point: {
-        view: 23,
-        average: 4.7,
-        review: 32,
-      },
-      createdAt: new Date(),
-      updatedAt: null,
-      deletedAt: null,
-      isDeleted: false,
+      "userId" : "dhjeon@pmirnc.com",
+      "name" : "다훈"
+    }
+  ],
+  "title" : "asdasads",
+  "regionType" : "국내",
+  "comments" : {
+    "rejectComment" : "",
+    "estimateComment" : ""
+  },
+  "suppliers" : [
+    "GS",
+    "LIME",
+    "WIZ_PANEL"
+  ],
+  "deviceTypes" : [
+    "테블릿"
+  ],
+  "profileSurvey" : false,
+  "profileFilter" : {},
+  "introHtml" : "",
+  "outroHtml" : "",
+  "exceptSurveyIds" : [],
+  "includeSurveyIds" : [],
+  "createDate" : new Date("2024-03-28T11:00:48.229+09:00"),
+  "startDate" : new Date("2024-03-28T11:01:00.000+09:00"),
+  "endDate" : new Date("2024-04-27T23:59:59.000+09:00"),
+  "status" : "진행",
+  "lang" : "en",
+  "addRespondentInfo" : "",
+  "partnerName" : "",
+  "partnerId" : "",
+  "partnerInfo" : null,
+  "panelReady" : false,
+  "overseas" : false,
+  "joinUrl" : "https://naver.com/[UID]",
+  "testUrl" : "https://naver.com/[UID]",
+  "quotaUrl" : "",
+  "payment" : {
+    "status" : true,
+    "date" : new Date("2024-04-01T09:39:07.703+09:00"),
+    "cost" : 2444,
+    "method" : "card",
+    "orderId" : "결제 완료됐을 경우 부여받은 ID 기입"
+  },
+  "quotaStatus" : "균등",
+  "preliminaryQuestion" : true,
+  "reward" : {
+    "GS" : {
+      "qualified" : 110,
+      "terminate" : 50,
+      "quotaFull" : 50,
+      "_id" : new Types.ObjectId("6604cf935d4537c754a6b73f")
     },
-  ];
-  // 원하는 형태
-  const expectedData = [
-    {
-      title: '치킨좋아',
-      location: '구로구/구로동',
-      categories: '양식/치킨,튀김',
-      viewCount: 23,
-      reviewCount: 32,
-      point: 4.7,
+    "LIME" : {
+      "qualified" : 100,
+      "terminate" : 20,
+      "quotaFull" : 20,
+      "_id" : new Types.ObjectId("6604cf935d4537c754a6b740")
     },
-  ];
-  
-  const filters = {
-    page: 1,
-    region: '서울',
-    sort: 'grade',
-  };
+    "WIZ_PANEL" : {
+      "qualified" : 90,
+      "terminate" : 30,
+      "quotaFull" : 30,
+      "_id" : new Types.ObjectId("6604cf935d4537c754a6b741")
+    }
+  },
+  "surveyCategory" : {
+    "category" : "생활용품",
+    "etcValue" : ""
+  },
+  "surveyId" : "82a52d1f-66ae-4e42-aac5-1489fb99d3fd",
+  "projectId" : 300181,
+  "creatorId" : "dhjeon@pmirnc.com",
+  "updateId" : "dhjeon@pmirnc.com",
+  "groupId" : "PMI",
+  "createdAt" : new Date("2024-03-28T11:01:33.199+09:00"),
+  "updatedAt" : new Date("2024-04-02T16:23:44.908+09:00"),
+  "__v" : 0,
+  "demoGraphic" : {
+    "age" : [],
+    "region" : [],
+    "gender" : [
+      "남성",
+      "여성"
+    ],
+    "_id" : new Types.ObjectId("6604cf935d4537c754a6b73e")
+  },
+  "estimatedCount" : 2222,
+  "estimatedLOI" : 2
+}
+```
+
+조회되는 가상의 값을 정의하고 findOne 을 호출 했을 때 어떤 값을 내보내고 Jest를 사용해서 확인해 볼 수 있습니다.
+
+```typescript
+describe("프로젝트 서비스 테스트", () => {
+  let projectService: ProjectService;
+  let projectRepository: ProjectRepository;
+  let projectModel: Model<ProjectDocument>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DataBaseModule],
+      imports: [],
       providers: [
-        RestaurantService,
-        RestaurantRepository,
+        ProjectService,
+        ProjectRepository,
         {
-          provide: getModelToken(Restaurant.name, MongoDataBase.FOODIE),
+          provide: getModelToken(Project.name, ConnectionNames.PANEL_HUB_V3),
           useValue: {},
-        },
-      ],
+        }
+      ]
     }).compile();
-    service = module.get<RestaurantService>(RestaurantService);
-    repository = module.get<RestaurantRepository>(RestaurantRepository);
-    model = module.get<Model<RestaurantDocument>>(
-      getModelToken(Restaurant.name, MongoDataBase.FOODIE),
-    );
-  });
 
-  test('RestauarantModel is defined', () => {
-    expect(model).toBeDefined();
-  });
+    projectService = module.get<ProjectService>(ProjectService);
+    projectRepository = module.get<ProjectRepository>(ProjectRepository);
+    projectModel = module.get<Model<ProjectDocument>>(getModelToken(Project.name, ConnectionNames.PANEL_HUB_V3))
+  })
 
-  test('RestaurantService is defined', () => {
-    expect(service).toBeDefined();
-  });
+  test('surveyId를 통해 프로젝트 하나를 조회한다.', async () => {
+    const surveyId = '82a52d1f-66ae-4e42-aac5-1489fb99d3fd';
 
-  test('RestaurantRepository is defined', () => {
-    expect(repository).toBeDefined();
-  });
+    jest.spyOn(projectRepository, 'findOne')
+      .mockImplementationOnce(() => Promise.resolve(project)); // findOne 함수가 가상으로 반환하는 값을 넣어준다.
 
-  test('식당 정보 리스트를 반환한다.', async () => {
-    const _id = new Types.ObjectId('65e885a1d907196bb47430c1');
-    
-    jest
-      .spyOn(repository, 'findManyRestaurantLists')
-      .mockImplementationOnce(() => Promise.resolve(stroeData));
-    const storeLists = await service.getLists(filters);
-    expect(storeLists).toStrictEqual(expectedData);
-  });
-});
+    const findOneBySurveyId = await projectService.findOneBySurveyId(surveyId)
+    expect(findOneBySurveyId).toStrictEqual(project); // 반환할 때 예상하는 값을 넣어준다.
+  })
+})
 ```
 
-service 이외에 모듈에서 사용하고 있는 repository, Mongo Collection도 함께 테스팅 모듈에 주입해주면 다른 서비스를 참조하고 있더라도 테스팅이 가능해진다.
+.mockImplementationOnce(() => Promise.resolve(project)) 통해서 반환하는 값을 위에서 정의한 project를 주었고 findOneBySurveyId의 예상 값도 project를 주었기 때문에 해당 케이스는 실패하지 않는 케이스입니다.
 
+만약 findOne을 호출한 후 findOneBySurveyId 에서 가공하여 다른 값을 반환한다면 실패하는 케이스가 되어 .toStrictEqual(project) 여기에 가공한 데이터를 전달해주면 성공하는 케이스로 만들 수 있습니다.
 
-   
