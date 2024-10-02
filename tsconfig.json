@@ -1,24 +1,45 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "strictFunctionTypes": true,
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"]
+      "@state/*": ["./state/*"],
+      "@pages/*": ["./pages/*"],
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
+      "@enums/*": ["./enums/*"],
+      "@layouts/*": ["./layouts/*"],
+      "@services/*": ["./services/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@config/*": ["./config/*"],
+      "@providers/*": ["./providers/*"],
+      "@apis/*": ["./apis/*"],
+      "@styles/*": ["./styles/*"],
+      "@images/*": ["../public/images/*"]
     }
   },
-  "include": [
-    "next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": [
-    "application/node_modules"
-  ]
+  "types": ["jest", "node"],
+  "typeRoots": ["./types/**/*.d.ts", "node_modules/@types"],
+  "include": ["next-env.d.ts", "src", "**/*.ts", "**/*.tsx", "types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
