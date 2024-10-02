@@ -1,5 +1,27 @@
 {
+  "name": "application",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://dahoon06.github.io/",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "next build && touch out/.nojekyll && git add -f out/ && git commit -m \\\"Deploy\\\" && git subtree push --prefix out origin gh-pages"
+  },
   "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.2.14"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.14",
     "gh-pages": "^6.1.1"
   }
 }
