@@ -1,8 +1,4 @@
-import { StaticHeader } from "@layouts/header/StaticHeader";
-import {MobileHeader} from "@layouts/header/MobileHeader";
+import { StaticHeader } from "./StaticHeader";
+import { MobileHeader } from "./MobileHeader";
 
-
-export {
-  StaticHeader,
-  MobileHeader
-}
+export { StaticHeader, MobileHeader };
