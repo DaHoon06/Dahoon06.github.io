@@ -1,3 +1,90 @@
+import { DefaultTheme } from "styled-components";
+
+export type ColorBlack = {
+  c100: string;
+  c200: string;
+};
+
+export type ColorGray = {
+  c000?: string;
+  c100?: string;
+  c200?: string;
+  c300?: string;
+  c400?: string;
+  c500?: string;
+};
+
+const colors = {
+  primary: "var(--primary)",
+  bg: {
+    primary: "var(--bg)",
+  },
+  dark: {
+    primary: "#778C86",
+    white: "#fff",
+    gray: {
+      c000: "#A6A6A6",
+      c200: "#D6D6D6",
+    },
+    bg: "#383838",
+    black: {
+      c100: "#222222",
+      c200: "#282828",
+    },
+    warning: "#FF533B",
+  },
+  light: {
+    primary: "#00C7AE",
+    white: "#fff",
+    gray: {
+      c100: "#C6C6C6",
+      c200: "#D6D6D6",
+      c300: "#D9D9D9",
+      c400: "#EFEFEF",
+      c500: "#989898",
+    },
+    bg: "#fff",
+    black: {
+      c100: "#000000",
+      c200: "#444343",
+    },
+    warning: "#FF5050",
+  },
+};
+
+export interface MixinsTheme {
+  flexRowsContainer: () => string;
+  flexBox: (direction?: string, align?: string, justify?: string) => string;
+  positionCenter: (type?: string) => string;
+}
+
+const scroll = {
+  theme: () => `
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #cdcdcd;
+      border-radius: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    
+    @media screen and (max-width: 768px) {
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+  `,
+};
+
 export interface MediaQueryTheme {
   custom: (width: number) => string;
   mobile: string;
@@ -6,45 +93,17 @@ export interface MediaQueryTheme {
 }
 
 const customMediaQuery = (maxWidth: number): string =>
-  `@media screen and (max-width: ${maxWidth}px)`;
+  `@media (max-width: ${maxWidth}px)`;
 
-export const media: MediaQueryTheme = {
+const media: MediaQueryTheme = {
   custom: customMediaQuery,
   pc: customMediaQuery(1440),
-  tablet: customMediaQuery(1000),
+  tablet: customMediaQuery(768),
   mobile: customMediaQuery(576),
 };
 
-export const scroll = {
-  theme: () => `
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
-
-    &::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 8px;
-        border: 1px solid #f1f1f1;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
-
-    @media screen and (max-width: 769px) {
-      &::-webkit-scrollbar {
-        width: 0;
-      }
-    }
-  `,
-};
-
+export const theme: DefaultTheme = {
+  colors,
+  media,
+  scroll,
+} as const;
