@@ -1,54 +1,65 @@
-import { StaticHeader, MobileHeader } from "./header";
 import { Footer } from "./Footer";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { IntroScreen } from "@components/intro/IntroScreen";
+import useUtilityStore from "@state/store/utilityStore";
 
 interface BaseLayoutProps {
   children: ReactNode;
 }
 
 const BaseContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
 `;
 
-const Main = styled.main<{$isScrolled: boolean}>`
+const Main = styled.main<{ $isScrolled: boolean }>`
+  position: relative;
   width: 100%;
   height: 100%;
-  min-height: calc(100vh - 236px);
-  padding: 0 1em;
+  min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.base};
-  margin-top: ${({$isScrolled}) => $isScrolled ? 60 : 100}px;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  transform: ${({ $isScrolled }) =>
+    $isScrolled ? "translateY(0)" : "translateY(100vh)"};
+  opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0)};
+  z-index: 30;
 `;
 
 const MainContainer = styled.div`
   width: 100%;
   height: 100%;
   margin: auto;
-  padding: 1em;
 `;
 
 export const BaseLayout = ({ children }: BaseLayoutProps) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { isScrolled, setIsScrolled, setIsVisible } = useUtilityStore();
+  const introRef = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = ({target}: any) => {
-    if (target.scrollTop > 200) {
+  const handleScroll = ({ target }: any) => {
+    const scrollTop = target.scrollTop;
+    if (scrollTop > 0) {
       setIsScrolled(true);
+      if (introRef.current) {
+        const contentHegiht = introRef.current.clientHeight;
+        setIsVisible(scrollTop > contentHegiht);
+      }
     } else {
       setIsScrolled(false);
     }
   };
 
   useEffect(() => {
-    handleScroll({target: document.body});
-    document.body.addEventListener('scroll', handleScroll);
-    return () => document.body.removeEventListener('scroll', handleScroll)
+    handleScroll({ target: document.body });
+    document.body.addEventListener("scroll", handleScroll);
+    return () => document.body.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
       <BaseContainer>
-        {isScrolled ? <MobileHeader isShow={isScrolled} /> : <StaticHeader isShow={isScrolled} />}
+        <IntroScreen ref={introRef} />
         <Main $isScrolled={isScrolled}>
           <MainContainer>{children}</MainContainer>
         </Main>

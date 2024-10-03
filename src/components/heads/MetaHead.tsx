@@ -3,7 +3,7 @@ import Head from "next/head";
 const MetaHead = () => {
   return (
     <Head>
-      <title>프론트엔드 개발자 | 전다훈입니다.</title>
+      <title>프론트엔드 개발자 | 전다훈(Dahoon06)</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, user-scalable=0"

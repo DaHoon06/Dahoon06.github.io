@@ -24,7 +24,8 @@
     "styled-components": "^6.0.8",
     "swiper": "^11.1.4",
     "uuid": "^9.0.1",
-    "js-cookie": "^3.0.5"
+    "js-cookie": "^3.0.5",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -10,7 +10,7 @@ import { ServerStyleSheet } from "styled-components";
 
 class Dahoon06Document extends Document {
   static async getInitialProps(
-    ctx: DocumentContext,
+    ctx: DocumentContext
   ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -47,11 +47,7 @@ class Dahoon06Document extends Document {
             href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css"
             crossOrigin={"anonymous"}
           />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet"
-            crossOrigin={"anonymous"}
-          />
+
           <link
             rel="stylesheet"
             type="text/css"
@@ -60,8 +56,8 @@ class Dahoon06Document extends Document {
           />
         </Head>
         <body>
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );
