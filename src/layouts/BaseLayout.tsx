@@ -19,7 +19,7 @@ const Main = styled.main<{ $isScrolled: boolean }>`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.background.base};
+  background-color: #fbfbfb;
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   transform: ${({ $isScrolled }) =>
     $isScrolled ? "translateY(0)" : "translateY(100vh)"};

@@ -8,7 +8,7 @@ const HeaderLayout = styled(motion.header)`
   height: 100px;
   border-bottom: 1px solid black;
   padding: 0.8em 1em;
-  background-color: ${({ theme }) => theme.colors.background.header}; 
+  background-color: #222; 
   position: fixed;
   top: 0;
   left: 0;

@@ -8,7 +8,7 @@ const HeaderLayout = styled(motion.header)`
   height: 60px;
   border-bottom: 1px solid black;
   padding: 0.8em 1em;
-  background-color: ${({ theme }) => theme.colors.background.header};  // 스크롤 시 배경색이 약간 투명하게 변경됨
+  background-color: #222;  // 스크롤 시 배경색이 약간 투명하게 변경됨
   position: fixed;
   top: 0;
   left: 0;
