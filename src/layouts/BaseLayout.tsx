@@ -1,5 +1,5 @@
 import { Footer } from "./Footer";
-import { ReactNode, useEffect, useRef } from "react";
+import React, {ReactNode, useEffect, useRef} from "react";
 import styled from "styled-components";
 import { IntroScreen } from "@components/intro/IntroScreen";
 import useUtilityStore from "@state/store/utilityStore";
@@ -34,15 +34,16 @@ const MainContainer = styled.div`
 `;
 
 export const BaseLayout = ({ children }: BaseLayoutProps) => {
-  const { isScrolled, setIsScrolled, setIsVisible } = useUtilityStore();
+  const { isScrolled, setIsScrolled, setIsVisible, scrollTo  } = useUtilityStore();
   const introRef = useRef<HTMLDivElement | null>(null);
+  const screenRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const handleScroll = ({ target }: any) => {
     const scrollTop = target.scrollTop;
     if (scrollTop > 0) {
       setIsScrolled(true);
       if (introRef.current) {
-        const contentHeight = introRef.current?.clientHeight;
+        const contentHeight = introRef.current?.clientHeight + 200;
         setIsVisible(scrollTop > contentHeight);
       }
     } else {
@@ -56,12 +57,23 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
     return () => document.body.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (scrollTo !== null && screenRefs.current[scrollTo]) {
+      screenRefs.current[scrollTo].scrollIntoView({  behavior: 'smooth' });
+    }
+  }, [scrollTo]);
+
   return (
     <>
       <BaseContainer>
         <IntroScreen ref={introRef} />
         <Main $isScrolled={isScrolled}>
-          <MainContainer>{children}</MainContainer>
+          <MainContainer>
+            {React.Children.map(children, (child, index) => (
+              <div key={index} ref={(el: any) => (screenRefs.current[index] = el)}>
+                {child}
+              </div>
+            ))}</MainContainer>
         </Main>
       </BaseContainer>
       <Footer />

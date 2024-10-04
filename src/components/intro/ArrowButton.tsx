@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
-import { styled } from "styled-components";
 import { IoIosArrowDown } from "react-icons/io";
+import useUtilityStore from "@state/store/utilityStore";
+import styled from "styled-components";
 
 const ArrowButtonLayout = styled.button`
-  position: relative;
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -42,14 +42,10 @@ const Arrow = styled.span`
 `;
 
 export const ArrowButton = (): ReactElement => {
-  const scrollToContent = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
-    });
-  };
+  const { setScrollTo } = useUtilityStore();
+  
   return (
-    <ArrowButtonLayout onClick={scrollToContent} type="button">
+    <ArrowButtonLayout onClick={() => setScrollTo(0)} type="button">
       <Arrow>
         <IoIosArrowDown color="white" />
       </Arrow>

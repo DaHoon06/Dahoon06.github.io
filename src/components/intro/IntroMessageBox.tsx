@@ -65,7 +65,7 @@ const TypingText = styled.p<{$startTyping: boolean}>`
   white-space: nowrap;
   overflow: hidden;
   border-right: 1px solid;
-  width: 100%; /* Adjust width to full */
+  width: 100%;
   opacity: 0;
   transition: opacity 0.5s ease;
   animation: ${({ $startTyping }) => $startTyping && css`
