@@ -42,7 +42,6 @@ export const GlobalStyle = createGlobalStyle`
         font-family:  "NanumSquare", "Nanum Gothic", sans-serif, "Noto Serif KR", serif, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     }
 
-    /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure,
     footer, header, hgroup, menu, nav, section {
         display: block;
@@ -50,7 +49,6 @@ export const GlobalStyle = createGlobalStyle`
     
 
     html {
-       
         min-width: 320px;
     }
     
@@ -97,6 +95,10 @@ export const GlobalStyle = createGlobalStyle`
       @media screen and (max-width: 769px) {
         &::-webkit-scrollbar {
           width: 0;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+          height: -webkit-fill-available;
         }
       }
     }
