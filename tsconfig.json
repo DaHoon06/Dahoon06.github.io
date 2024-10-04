@@ -23,6 +23,7 @@
     "strictFunctionTypes": true,
     "baseUrl": "./src",
     "paths": {
+      "@root/*": ["../*"],
       "@state/*": ["./state/*"],
       "@pages/*": ["./pages/*"],
       "@lib/*": ["./lib/*"],

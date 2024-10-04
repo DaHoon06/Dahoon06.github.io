@@ -1,5 +1,7 @@
 import { ReactElement } from "react";
 import { styled } from "styled-components";
+import Link from "next/link";
+import {GitHubIcon} from "@components/common/icons";
 
 const NavigationLayout = styled.header`
   z-index: 10;
@@ -20,12 +22,19 @@ const NavigationLayout = styled.header`
   }
 `;
 
+const GitHubLink = 'https://github.com/DaHoon06';
+
 export const Navigation = (): ReactElement => {
   return (
     <NavigationLayout>
       <nav>
         <ul>
-          <li>GitHub.</li>
+          <li>
+            <Link href={GitHubLink}>
+              <GitHubIcon />
+              GitHub.
+            </Link>
+          </li>
           <li>Blog.</li>
         </ul>
       </nav>

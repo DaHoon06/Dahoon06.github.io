@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Background } from "./Background";
 import { Navigation } from "./Navigation";
-import { forwardRef, ReactElement, Ref } from "react";
+import React, { forwardRef, Ref } from "react";
 import { ArrowButton } from "./ArrowButton";
+import { IntroMessageBox } from "@components/intro/IntroMessageBox";
 
 const IntroScreenLayout = styled.article`
   position: sticky;
@@ -28,6 +29,7 @@ export const IntroScreen = forwardRef<
     <IntroScreenLayout ref={ref}>
       <Background />
       <Navigation />
+      <IntroMessageBox />
       <ArrowButton />
     </IntroScreenLayout>
   );
