@@ -1,19 +1,5 @@
 import { DefaultTheme } from "styled-components";
 
-export type ColorBlack = {
-  c100: string;
-  c200: string;
-};
-
-export type ColorGray = {
-  c000?: string;
-  c100?: string;
-  c200?: string;
-  c300?: string;
-  c400?: string;
-  c500?: string;
-};
-
 const colors = {
   primary: "var(--primary)",
   bg: {
@@ -51,12 +37,6 @@ const colors = {
     warning: "#FF5050",
   },
 };
-
-export interface MixinsTheme {
-  flexRowsContainer: () => string;
-  flexBox: (direction?: string, align?: string, justify?: string) => string;
-  positionCenter: (type?: string) => string;
-}
 
 const scroll = {
   theme: () => `

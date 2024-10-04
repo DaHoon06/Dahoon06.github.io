@@ -96,7 +96,7 @@ export const IntroMessageBox = () => {
   useEffect(() => {
     if (isSlid) {
       setTimeout(() => {
-        const typingText = document.querySelector('.typing-text'); // Select typing text
+        const typingText = document.querySelector('.typing-text') as HTMLElement;
         if (typingText) {
           typingText.style.opacity = '1';
         }

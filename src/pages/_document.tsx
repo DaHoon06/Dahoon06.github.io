@@ -54,6 +54,11 @@ class Dahoon06Document extends Document {
             href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css"
             crossOrigin={"anonymous"}
           />
+
+          <link
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

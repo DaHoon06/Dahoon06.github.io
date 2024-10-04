@@ -42,8 +42,8 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
     if (scrollTop > 0) {
       setIsScrolled(true);
       if (introRef.current) {
-        const contentHegiht = introRef.current.clientHeight;
-        setIsVisible(scrollTop > contentHegiht);
+        const contentHeight = introRef.current?.clientHeight;
+        setIsVisible(scrollTop > contentHeight);
       }
     } else {
       setIsScrolled(false);
