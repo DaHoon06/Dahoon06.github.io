@@ -3,6 +3,7 @@ import React, {ReactNode, useEffect, useRef} from "react";
 import styled from "styled-components";
 import { IntroScreen } from "@components/intro/IntroScreen";
 import useUtilityStore from "@state/store/utilityStore";
+import {ContactMail} from "@components/intro/ContactMail";
 
 interface BaseLayoutProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ const BaseContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  background-color: #2d2d2d;
 `;
 
 const Main = styled.main<{ $isScrolled: boolean }>`
@@ -19,7 +21,7 @@ const Main = styled.main<{ $isScrolled: boolean }>`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: #fbfbfb;
+  background-color: #2d2d2d;
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   transform: ${({ $isScrolled }) =>
     $isScrolled ? "translateY(0)" : "translateY(100vh)"};
@@ -43,7 +45,7 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
     if (scrollTop > 0) {
       setIsScrolled(true);
       if (introRef.current) {
-        const contentHeight = introRef.current?.clientHeight + 200;
+        const contentHeight = introRef.current?.clientHeight + 50;
         setIsVisible(scrollTop > contentHeight);
       }
     } else {
@@ -73,9 +75,11 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
               <div key={index} ref={(el: any) => (screenRefs.current[index] = el)}>
                 {child}
               </div>
-            ))}</MainContainer>
+            ))}
+          </MainContainer>
         </Main>
       </BaseContainer>
+      <ContactMail />
       <Footer />
     </>
   );

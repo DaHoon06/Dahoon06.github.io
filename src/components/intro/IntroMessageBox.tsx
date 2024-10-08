@@ -24,15 +24,6 @@ const fadeIn = keyframes`
   }
 `;
 
-const fadeInTest = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
 export const IntroMessageBoxLayout = styled.div<{$isSlid: boolean}>`
   position: absolute;
   top: 50%;
@@ -49,6 +40,16 @@ export const IntroMessageBoxLayout = styled.div<{$isSlid: boolean}>`
                   : css`
           animation: ${fadeIn} 1s ease forwards;
         `};
+  
+  .title {
+    stroke: rgba(0,0,0,0.4);
+    font-weight: bold;
+    font-size: 2.5rem;
+    
+    .accent {
+      color: #FF7101;
+    }
+  }
 `;
 
 const typing = keyframes`
@@ -71,6 +72,12 @@ const TypingText = styled.p<{$startTyping: boolean}>`
   animation: ${({ $startTyping }) => $startTyping && css`
     ${typing} 4s steps(30) forwards;
   `};
+  
+  &.typing-text {
+    color: #fff;
+    font-weight: 100;
+    line-height: 40px;
+  }
 `;
 
 export const IntroMessageBox = () => {
@@ -106,8 +113,12 @@ export const IntroMessageBox = () => {
 
   return (
     <IntroMessageBoxLayout $isSlid={isSlid}>
-      <p>{Introduce.hello}</p>
-      <TypingText className='typing-text' $startTyping={startTyping}>{Introduce.description}</TypingText>
+      <p className={'title'}>
+        안녕하세요. 프론트엔드 엔지니어 <span className={'accent'}>전다훈</span>입니다.
+      </p>
+      <TypingText className='typing-text' $startTyping={startTyping}>저의 웹 포트폴리오에 방문해주셔서 진심으로 감사드립니다.
+        <br/> 저에대해 좀 더 궁금하시다면 스크롤을 내려주세요.
+      </TypingText>
     </IntroMessageBoxLayout>
   )
 }

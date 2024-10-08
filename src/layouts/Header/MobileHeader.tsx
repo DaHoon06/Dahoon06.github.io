@@ -28,7 +28,7 @@ interface MobileHeaderProps {
   isShow: boolean;
 }
 
-export const MobileHeader = ({isShow}: MobileHeaderProps): ReactElement => {
+export const MobileHeader = ({ isShow }: MobileHeaderProps): ReactElement => {
   return (
     <AnimatePresence>
       {isShow && (

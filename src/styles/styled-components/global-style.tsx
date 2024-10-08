@@ -57,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      background-color: #2d2d2d;
     }
     
     #__next {
@@ -64,7 +65,8 @@ export const GlobalStyle = createGlobalStyle`
       display: flex;
       flex: 1;
       flex-direction: column;
-      justify-content: space-between
+      justify-content: space-between;
+      background-color: #2d2d2d;
     }
 
     html, body {
@@ -107,8 +109,8 @@ export const GlobalStyle = createGlobalStyle`
         transition: background 0.2s ease-in, color 0.2s ease-in;
         width: 100%;
         padding: 0;
-        color: #222222;
-        background-color: #f8f9fb;
+        color: #fff;
+      background-color: #2d2d2d;
     }
 
     #root {

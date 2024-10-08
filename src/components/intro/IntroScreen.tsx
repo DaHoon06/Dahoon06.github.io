@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { Background } from "./Background";
-import { Navigation } from "./Navigation";
 import React, { forwardRef, Ref } from "react";
 import { ArrowButton } from "./ArrowButton";
 import { IntroMessageBox } from "@components/intro/IntroMessageBox";
+import { StaticHeader } from "@layouts/Header";
 
 const IntroScreenLayout = styled.article`
   position: sticky;
@@ -27,8 +26,7 @@ export const IntroScreen = forwardRef<
 >((props, ref: Ref<HTMLDivElement>) => {
   return (
     <IntroScreenLayout ref={ref}>
-      <Background />
-      <Navigation />
+      <StaticHeader isShow={true} />
       <IntroMessageBox />
       <ArrowButton />
     </IntroScreenLayout>

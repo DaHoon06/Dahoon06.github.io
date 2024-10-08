@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 import Link from "next/link";
 import {GitHubIcon} from "@components/common/icons";
 
@@ -13,7 +13,7 @@ const NavigationLayout = styled.header`
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 26px;
 
     li {
       padding: 0.2em;

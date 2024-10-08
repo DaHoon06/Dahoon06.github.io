@@ -1,18 +1,25 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import {Logo} from "@components/common/Logo";
 
 export const ProgressBarLayout = styled(motion.header)`
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
+  height: 64px;
   z-index: 40;
-  background-color: #2d2d2dfc;
+  background-color: #2D2D2D;
   display: flex;
   align-items: center;
-  padding: 0 1em;
+  padding: 0.8em 2em;
   color: white;
+  transition: 0.5s ease-out;
+
+  @media screen and (max-width: 767px) {
+    padding: 0.8em 1em;
+  }
 `;
 
 const ProgressLists = styled.ul`
@@ -21,6 +28,26 @@ const ProgressLists = styled.ul`
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  
+  .active {
+    border-bottom: 1px solid #FF7101;
+    
+    .dot {
+      font-weight: 700;
+      color: #FF7101;
+    }
+  }
+  
+  .unactive {
+    font-weight: 400;
+    color: #484848;
+    border-bottom: 1px solid transparent;
+
+    .dot {
+      font-weight: 400;
+      color: #484848;
+    }
+  }
 `;
 
 export const ProgressBar = ({ isVisible }: { isVisible: boolean }) => {
@@ -32,11 +59,23 @@ export const ProgressBar = ({ isVisible }: { isVisible: boolean }) => {
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -20 }}
           transition={{ duration: 0.3 }}
         >
+          <Link href={'/'}>
+            <Logo />
+          </Link>
           <ProgressLists>
-            <li>About</li>
-            <li>Skill</li>
-            <li>Project</li>
-            <li>Contact</li>
+            <li className={'active'}>
+              About
+              <span className={'dot'}>.</span>
+            </li>
+            <li className={'unactive'}>Skill
+              <span className={'dot'}>.</span>
+            </li>
+            <li className={'unactive'}>Project
+              <span className={'dot'}>.</span>
+            </li>
+            <li className={'unactive'}>Contact
+              <span className={'dot'}>.</span>
+            </li>
           </ProgressLists>
         </ProgressBarLayout>
       )}
