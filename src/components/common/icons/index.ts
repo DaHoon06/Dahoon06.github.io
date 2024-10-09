@@ -1,5 +1,4 @@
-import { GitHubIcon } from "@components/common/icons/GitHub";
+import { GitHubIcon } from "./GitHub";
+import { BlogIcon } from "./Blog";
 
-export {
-  GitHubIcon
-}
+export { GitHubIcon, BlogIcon };
