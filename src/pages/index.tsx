@@ -10,11 +10,11 @@ import { ContactScreen } from "@components/contact/ContactScreen";
 export const ScreenLayout = styled.div`
   width: 100%;
   position: relative;
-  background-color: #2d2d2d;
-  border-radius: 50px 50px 0 0;
-  border: 1px solid black;
+  background-color: #fbfbfb;
+  border-radius: 30px 30px 0 0;
+  border: none;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
-  padding: 1em 0;
+  padding: 2em 0;
 `;
 
 export const ScreenContainer = styled.div`

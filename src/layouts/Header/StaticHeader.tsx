@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "@components/common/Logo";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosMenu } from "react-icons/io";
 
 const HeaderLayout = styled(motion.header)`
