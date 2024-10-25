@@ -7,6 +7,7 @@ export const AboutScreenLayout = styled.section`
   color: #222;
   padding: 4em 2em 1em;
   background-color: #fbfbfb;
+  border-radius: 30px 30px 0 0;
 `;
 
 const Title = styled.h1`

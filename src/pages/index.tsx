@@ -10,17 +10,18 @@ import { ContactScreen } from "@components/contact/ContactScreen";
 export const ScreenLayout = styled.div`
   width: 100%;
   position: relative;
-  background-color: #fbfbfb;
-  border-radius: 30px 30px 0 0;
+  background: transparent;
   border: none;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
-  padding: 2em 0;
+  padding: 0 0 2em;
 `;
 
 export const ScreenContainer = styled.div`
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
   max-width: 1000px;
   width: 100%;
-  margin: auto;
+  margin: 0 auto;
+  border-radius: 30px 30px 0 0;
+  background: transparent;
 `;
 
 export default function Home() {

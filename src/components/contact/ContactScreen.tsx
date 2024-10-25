@@ -3,15 +3,22 @@ import styled from "styled-components";
 
 export const ContactScreenLayout = styled.section`
   width: 100%;
-  height: 300px;
-  color: #fbfbfb;
-  padding: 1em 0;
+  color: #222;
+  padding: 2em;
+  background-color: #fbfbfb;
 `;
+
+const Title = styled.h1`
+  font-size: 2em;
+  margin-bottom: 0.8em;
+  color: #333;
+`;
+
 
 export const ContactScreen = (): ReactElement => {
   return (
     <ContactScreenLayout>
-      <h1>Contact.</h1>
+      <Title>Contact.</Title>
     </ContactScreenLayout>
   );
 };
