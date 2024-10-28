@@ -32,17 +32,6 @@ export const IntroMessageBoxLayout = styled.div<{ $isSlid: boolean }>`
   align-items: flex-start;
   gap: 12px;
 
-  /* transform: translate(0%, 0%);
-
-  ${({ $isSlid }) =>
-    $isSlid
-      ? css`
-          animation: ${slideToLeft} 1s ease forwards;
-        `
-      : css`
-          animation: ${fadeIn} 1s ease forwards;
-        `}; */
-
   .title {
     stroke: rgba(0, 0, 0, 0.4);
     font-weight: bold;

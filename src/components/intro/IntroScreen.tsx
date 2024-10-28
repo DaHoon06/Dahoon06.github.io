@@ -23,6 +23,9 @@ const IntroScreenLayout = styled.article`
   .message-box {
     position: relative;
     padding: 1em 2em;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
 
     @media screen and (max-width: 767px) {
       padding: 0.8em 1.5em;

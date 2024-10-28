@@ -27,10 +27,6 @@ const Main = styled.main<{ $isScrolled: boolean }>`
     $isScrolled ? "translateY(0)" : "translateY(100vh)"};
   opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0)};
   z-index: 30;
-
-  @media (min-width: 1280px) {
-    background-color: #2d2d2d;
-  }
 `;
 
 const MainContainer = styled.div`
