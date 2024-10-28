@@ -86,7 +86,7 @@ export const SkillsScreen = (): ReactElement => {
         </Tab>
       </Tabs>
       <SkillList>
-        {renderSkills().map((skill) => (
+        {renderSkills().map((skill: any) => (
           <li key={skill}>
             <SkillIcons type={skill} />
           </li>
