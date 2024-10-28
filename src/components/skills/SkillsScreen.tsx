@@ -1,5 +1,6 @@
 import { ReactElement, useState } from "react";
 import styled from "styled-components";
+import SkillIcons from "@components/common/icons/SkillIcons";
 
 export const SkillsScreenLayout = styled.section`
   width: 100%;
@@ -50,14 +51,14 @@ const SkillList = styled.ul`
   }
 `;
 
-const frontend = ["Next.js", "Vue.js 2 / 3", "React.js"];
-const backend = ["NestJS", "Node.js", "Express.js", "MongoDB"];
-const etc = ["TypeScript", "AWS", "Docker", "Git", "GitHub"];
+const frontend = ["nextjs", "react", "vue", "zustand", "redux", "vuex"];
+const backend = ["nestjs", "nodejs", "mongodb"];
+const etc = ["typescript", "sass", "aws", "docker", "git"];
 
 export const SkillsScreen = (): ReactElement => {
   const [activeTab, setActiveTab] = useState("Frontend");
 
-  const renderSkills = () => {
+  const renderSkills = (): any => {
     switch (activeTab) {
       case "Frontend":
         return frontend;
@@ -86,7 +87,9 @@ export const SkillsScreen = (): ReactElement => {
       </Tabs>
       <SkillList>
         {renderSkills().map((skill) => (
-          <li key={skill}>{skill}</li>
+          <li key={skill}>
+            <SkillIcons type={skill} />
+          </li>
         ))}
       </SkillList>
     </SkillsScreenLayout>
