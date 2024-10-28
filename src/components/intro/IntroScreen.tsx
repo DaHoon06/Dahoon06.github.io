@@ -5,7 +5,6 @@ import { IntroMessageBox } from "@components/intro/IntroMessageBox";
 import { StaticHeader } from "@layouts/Header";
 import FlexBox from "@components/common/boxes/FlexBox";
 import { GitHubIcon, BlogIcon } from "@components/common/icons";
-import {} from "@components/common/icons/Blog";
 
 const IntroScreenLayout = styled.article`
   position: sticky;
@@ -13,7 +12,7 @@ const IntroScreenLayout = styled.article`
   left: 0;
   z-index: 9;
   min-width: 100vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   height: 100%;
   width: 100%;
   display: flex;
